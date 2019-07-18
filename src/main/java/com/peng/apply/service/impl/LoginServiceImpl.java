@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -101,7 +102,7 @@ public class LoginServiceImpl implements LoginService {
      * @date: 2018/11/5 下午7:52
      */
     @Override
-    public ResultVo<String> loginUser(User user) {
+    public ResultVo<String> loginUser(User user, HttpServletRequest request) {
         //校验是用户名还是手机号
         Matcher isPhone = Pattern.compile(CodeConstants.PHONE_REG).matcher(user.getName());
         Matcher isEmail = Pattern.compile(CodeConstants.EMAIL_REG).matcher(user.getName());
@@ -109,13 +110,13 @@ public class LoginServiceImpl implements LoginService {
         User dbUser = null;
         if(isPhone.matches()){
             //手机号
-            dbUser = loginMapper.queryUserByName(user.getName());
+            dbUser = loginMapper.queryUserByPhone(user.getName());
         }else if(isEmail.matches()){
             //邮箱
             dbUser = loginMapper.queryUserByEmail(user.getName());
         }else if(isUserName.matches()){
             //用户名
-            dbUser = loginMapper.queryUserByPhone(user.getName());
+            dbUser = loginMapper.queryUserByName(user.getName());
         }
 
 
@@ -129,10 +130,14 @@ public class LoginServiceImpl implements LoginService {
         user.setPassword(MD5.md5(user.getPassword()));
         if(!user.getPassword().equals(dbUser.getPassword())){
             //密码错误 用户名或者密码错误
-            return ResultVo.success(CodeConstants.REG_ERROR,"用户名或者密码错误，请重试");
+            return ResultVo.error(CodeConstants.REG_ERROR,"用户名或者密码错误，请重试");
         }
 
-        //登陆成功
-        return null;
+
+        //登陆成功 将用户信息存放到session中
+        request.getSession().setAttribute("user",dbUser);
+
+
+        return ResultVo.success("登陆成功！！!");
     }
 }

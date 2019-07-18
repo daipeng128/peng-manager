@@ -83,18 +83,31 @@
             dataType: "json",
             success: function(data){
                 if(data.success){
-                    if(data.code == 200){
-                        //显示提示框
-                        $("#modal-container-238715").css("display","blink;");
-                        //赋值
-                        $("#reg-content").val(data.data);
-                    }
+                    var d = dialog({
+                        title:'登陆提示',
+                        content:data.data,
+                        cancel:false});
+                    d.showModal();
+                    setTimeout(function(){
+                        d.close().remove();
+                        location.href = '/';
+                    },500);
+
+
                 }else {
-                    //登陆失败
-                    //显示提示框
-                    $("#modal-container-238715").css("display","blink;");
-                    //赋值
-                    $("#reg-content").val(data.data);
+                    var d = dialog({
+                        title:'登陆提示',
+                        content:data.data,
+                        cancel:false,
+                        okValue:"确定",
+                        ok:function(){
+                            if(data.success){
+                                location.href = '/index.jsp';
+                            }
+                        }
+                    });
+                    d.showModal();
+
 
                 }
             }

@@ -216,23 +216,24 @@
                 data: {name:$("#name").val(),password:$("#password").val(),phone:$("#phone").val()},
                 dataType: "json",
                 success: function(data){
+                    var okValue;
                     if(data.success){
-                        //注册成功
-                        if(data.code == 200){
-                            //显示提示框
-                            $("#modal-container-238715").css("display","blink;");
-                            //赋值
-                            $("#reg-content").val(data.data);
-                        }
-                    }else {
-                        $('html').append('<div class="modal-backdrop fade in"></div>')
-                        //显示提示框
-                        $("#modal-container-238715").css('display','block');
-                        $("#modal-container-238715").attr('class','modal fade in');
-                        $("body").attr('class','modal-open');
-                        //赋值
-                        $("#reg-content").val(data.data);
+                        okValue = '跳转登陆页面';
+                    }else{
+                        okValue = "确定";
                     }
+                    var d = dialog({
+                                title:'注册提示',
+                                content:data.data,
+                                cancel:false,
+                                okValue:okValue,
+                                ok:function(){
+                                    if(data.success){
+                                        location.href = '/index.jsp';
+                                    }
+                                }
+                            });
+                    d.showModal();
                 }
             });
 

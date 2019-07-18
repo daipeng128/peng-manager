@@ -3,6 +3,8 @@ package com.peng.apply.service;
 import com.peng.common.ResultVo;
 import com.peng.manager.domain.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Auther: daipeng
  * @Date: 2018/10/31 19:40
@@ -16,5 +18,5 @@ public interface LoginService {
     ResultVo<String> registerUser(User user);
 
     //用户登陆
-    ResultVo<String> loginUser(User user);
+    ResultVo<String> loginUser(User user, HttpServletRequest request);
 }
