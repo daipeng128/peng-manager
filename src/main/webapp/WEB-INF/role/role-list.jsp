@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${roleList}" var="role">
-                    <tr class="success">
+                    <tr class="${usroleer.id %2 == 0?success:error}">
                         <td>${role.id}</td>
                         <td>${role.role}</td>
                         <td>${role.description}</td>

@@ -26,6 +26,8 @@ public class MyInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        System.out.println(request.getRequestURL().toString());
+
         Object user = request.getSession().getAttribute("user");
         if (user != null) {
             //不需要的拦截直接过
@@ -37,6 +39,7 @@ public class MyInterceptor implements HandlerInterceptor {
 
             return true;
         }
+
     }
 
     @Override

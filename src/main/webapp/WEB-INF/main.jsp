@@ -24,19 +24,19 @@
                             <div class="panel-group" id="panel-636556">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-636556" href="#">菜单列表</h3>
+                                        <h3 class="panel-title" data-parent="#panel-636556" href="#">菜单列表</h3>
                                     </div>
 
                                     <div class="panel-body">
-                                        <a class="panel-title collapsed" href="javascript:createTab('用户管理','/user/queryUserList','yonghu')">用户管理</a>
+                                        <a class="panel-title" href="javascript:createTab('用户管理','/user/queryUserList','yonghu')">用户管理</a>
                                     </div>
 
                                     <div class="panel-footer">
-                                        <a class="panel-title collapsed" href="javascript:createTab('角色管理','/role/queryRoleList','juese')">角色管理</a>
+                                        <a class="panel-title" href="javascript:createTab('角色管理','/role/queryRoleList','juese')">角色管理</a>
                                     </div>
 
                                     <div class="panel-body">
-                                        <a class="panel-title collapsed" href="javascript:createTab('权限管理','/user/queryUserList','quanxian')">权限管理</a>
+                                        <a class="panel-title" href="javascript:createTab('权限管理','/user/queryUserList','quanxian')">权限管理</a>
                                     </div>
                                 </div>
                             </div>
@@ -54,11 +54,7 @@
                                             这里是首页
                                         </p>
                                     </div>
-                                    <div class="tab-pane fade" id="panel-959304">
-                                        <p>
-                                            Howdy, I'm in Section 2.
-                                        </p>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -88,8 +84,17 @@
             type:'get',
             url:path,
             dataType:'html',
+            async:false,
             success:function (page) {
-                $("#panel-959304").html(page);
+
+                var hhh = '<div class="tab-pane fade" id="'+flag+'-123">\n' +
+                ' <p>\n' +
+                            page
+                +
+                '</p>\n' +
+                '</div>'
+
+                $(".tab-content").append(hhh);
 
 
             }
@@ -97,7 +102,7 @@
 
 
         var tab = " <li>\n" +
-                    "<a id='"+flag+"' href='#panel-959304' data-toggle='tab'>"+tabName+"</a>\n" +
+                    "<a id='"+flag+"' href='#"+flag+"-123' data-toggle='tab'>"+tabName+"</a>\n" +
                   "</li>";
 
         //拿到tab

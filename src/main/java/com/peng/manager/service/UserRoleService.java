@@ -15,4 +15,5 @@ public interface UserRoleService {
     List<UserRole> queryUserRoleList(Integer userId);
 
 
+    String setRolesToUser(Integer userId, Integer[] roleIds);
 }

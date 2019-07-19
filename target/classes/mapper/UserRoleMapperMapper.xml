@@ -13,6 +13,42 @@
         where u.id = ur.user_id
         and r.id = ur.role_id
         and u.id = #{userId}
+        and u.yn = 0
+        and r.yn = 0
+        and ur.yn = 0
     </select>
+
+
+    <update id="forbidUserRoleByUserId" parameterType="int">
+
+        update t_user_role set yn = 1
+        where yn = 0
+        and user_id = #{userId}
+
+    </update>
+
+
+    <insert id="setUserRole">
+        INSERT INTO `t_user_role`
+        (
+        <trim suffixOverrides=",">
+                `user_id`,
+                `role_id`,
+                `yn`
+        </trim>
+        )
+        VALUES
+        <foreach collection="roleIds" separator="," item="value">
+            (
+            <trim suffixOverrides=",">
+                #{userId},
+                #{value},
+                0
+            </trim>
+            )
+
+        </foreach>
+
+    </insert>
 
 </mapper>

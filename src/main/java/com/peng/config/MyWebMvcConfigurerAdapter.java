@@ -17,9 +17,9 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
       * 配置静态资源
       */
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
-        registry.addResourceHandler("/image/**").addResourceLocations("classpath:/image/");
-        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
+//        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
+//        registry.addResourceHandler("/image/**").addResourceLocations("classpath:/image/");
+//        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
         super.addResourceHandlers(registry);
     }
 
@@ -29,7 +29,10 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**")
 //        .excludePathPatterns("/login") //登录页
 //        .excludePathPatterns("/hlladmin/user/sendEmail") //发送邮箱
-                .excludePathPatterns("/login/**"); //打开注册页面
+                .excludePathPatterns("/login/**") //打开注册页面
+                .excludePathPatterns("/js/**") //打开注册页面
+                .excludePathPatterns("/image/**") //打开注册页面
+                .excludePathPatterns("/css/**"); //打开注册页面
 //                .excludePathPatterns("/login/register") //用户注册
 //                .excludePathPatterns("/hlladmin/user/login"); //用户登录
         super.addInterceptors(registry);

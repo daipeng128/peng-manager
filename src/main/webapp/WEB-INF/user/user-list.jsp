@@ -34,8 +34,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${userList}" var="user">
-                    <tr class="success">
+                <c:forEach items="${userList}" var="user" >
+                    <tr class="${user.id %2 == 0?success:error}">
                         <td>${user.id}</td>
                         <td>${user.name}</td>
                         <td>${user.phone}</td>
@@ -62,7 +62,7 @@
                                 <a href="">启用</a>
                             </c:if>
                             |
-                            <a href="javascript:setRoles(${user.id})">分配角色</a>
+                            <a href="javascript:setRoles(${user.id},'${user.name}')">分配角色</a>
 
                         </td>
                     </tr>
@@ -75,10 +75,8 @@
 
     <script>
 
-        function setRoles(userId){
+        function setRoles(userId,userName){
 
-            var roleAll;
-            var userRoles;
 
             //异步加载角色
             $.ajax({
@@ -89,55 +87,82 @@
                 success: function(data){
 
                     //拿到所有的角色
-                    roleAll = data;
+                    var roleAll = data;
+
+                    //拿到用户所拥有的角色
+                    $.ajax({
+                        type: "POST",
+                        url: "/role/queryRoleListByUserId",
+                        data:{'userId':userId},
+                        dataType: "json",
+                        async:false,
+                        success: function(data){
+                            //拿到所有的角色
+                           var userRoles = data;
+
+                            var newUserRoleHtml = '<form id="ff">' +
+                                                    '<input name="userId" value="'+userId+'" type="hidden"/>';
+
+                            for (var i=0;i<roleAll.length;i++){
+                                var role = roleAll[i];
+
+                                var bool = false;
+                                for(var y=0;y<userRoles.length;y++){
+                                    var userRole =  userRoles[y];
+                                    if(userRole.roleId == role.id){
+                                        bool = true;
+                                    }
+                                }
+
+                                if(bool){
+                                    //用户拥有当前角色
+                                    newUserRoleHtml += '<div class="checkbox">\n' +
+                                        '    <label><input type="checkbox" name="roleIds" checked="true" value="'+role.id+'">'+role.role+'</label>\n' +
+                                        '</div>';
+                                }else{
+                                    newUserRoleHtml += '<div class="checkbox">\n' +
+                                        '    <label><input type="checkbox" name="roleIds" value="'+role.id+'">'+role.role+'</label>\n' +
+                                        '</div>';
+                                }
+                            }
+
+                            newUserRoleHtml += "</form>";
+                            //回显角色
+
+                            var d = dialog({
+                                title:'给【'+userName+'】分配角色',
+                                content:newUserRoleHtml,
+                                cancel:false,
+                                okValue:"确定",
+                                ok:function(){
+
+                                  var al = $("#ff").serialize();
+
+                                  console.info(al);
+
+                                    //添加用户角色
+                                    $.get("/role/setRolesToUser",al,function(msg){
+                                        console.info(msg);
+                                        var d2 = dialog({content:msg});
+                                            d2.showModal();
+                                            setTimeout(function(){d2.close().remove()},1000);
+
+                                        });
+
+                                }
+                            });
+                            d.showModal();
+
+
+                        }
+                    });
 
                 }
             });
 
-            //拿到用户所拥有的角色
-            $.ajax({
-                type: "POST",
-                url: "/role/queryRoleListByUserId",
-                data:{'userId':userId},
-                dataType: "json",
-                async:false,
-                success: function(data){
-                    //拿到所有的角色
-                    userRoles = data;
 
 
-                }
-            });
 
-            //定义一个新的对象
-            console.info(roleAll)
-
-            var newUserRole = new Object();
-
-
-            for (i=0;i<roleAll.length;i++){
-                var role = roleAll[i];
-
-                newUserRole = role;
-                console.info(role);
-
-                for(y=0;y<userRoles.length;y++){
-                    var userRole =  userRoles[0];
-                    console.info(userRole);
-                    if(userRole.roleId == role.id){
-
-                        newUserRole.hasCheck = 1;
-                        alert('相同');
-                    }else{
-                        newUserRole.hasCheck = 0;
-                    }
-                }
-            }
-
-
-            console.info(newUserRole);
-
-            //回显树
 
         }
 

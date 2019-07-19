@@ -64,4 +64,22 @@ public class RoleController {
         return userList;
     }
 
+
+    /**
+     * 根据当前用户id 返回对应的角色
+     * @param userId
+     * @return
+     */
+    @RequestMapping("setRolesToUser")
+    @ResponseBody
+    public String setRolesToUser(Integer userId,Integer[] roleIds){
+
+        String msg = userRoleService.setRolesToUser(userId,roleIds);
+
+        return msg;
+    }
+
+
+
+
 }
