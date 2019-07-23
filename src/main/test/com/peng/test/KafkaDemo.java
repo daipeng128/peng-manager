@@ -1,4 +1,5 @@
 package com.peng.test;
+/*
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.CreateTopicsResult;
@@ -19,11 +20,13 @@ import java.util.Collection;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+*/
 /**
  * @Auther: daipeng
  * @Date: 2019/3/26 20:13
  * @Description:
- */
+ *//*
+
 public class KafkaDemo {
 
     @Test
@@ -47,9 +50,11 @@ public class KafkaDemo {
 
     }
 
-    /**
+    */
+/**
      * 消息生产者
-     */
+     *//*
+
     @Test
     public void testProducer(){
 
@@ -71,9 +76,11 @@ public class KafkaDemo {
 
     }
 
-    /**
+    */
+/**
      * 消息消费者
-     */
+     *//*
+
     @Test
     public void testConsumer(){
         Properties props = new Properties();
@@ -100,3 +107,4 @@ public class KafkaDemo {
 
     }
 }
+*/
