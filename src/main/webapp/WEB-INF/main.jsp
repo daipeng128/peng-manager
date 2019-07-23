@@ -36,7 +36,7 @@
                                     </div>
 
                                     <div class="panel-body">
-                                        <a class="panel-title" href="javascript:createTab('权限管理','/user/queryUserList','quanxian')">权限管理</a>
+                                        <a class="panel-title" href="javascript:createTab('权限管理','/authority/openAuthorityPage','quanxian')">权限管理</a>
                                     </div>
                                 </div>
                             </div>

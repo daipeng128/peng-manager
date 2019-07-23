@@ -2,7 +2,6 @@ package com.peng.manager.control;
 
 import com.peng.manager.domain.Role;
 import com.peng.manager.domain.UserRole;
-import com.peng.manager.domain.UserRoleVo;
 import com.peng.manager.service.RoleService;
 import com.peng.manager.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

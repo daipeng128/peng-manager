@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peng.manager.mapper.AuthorityBaseMapper">
+
+
+    <insert id="insertAuthority"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `t_authority`
+        (
+        <trim suffixOverrides=",">
+                    <if test="id!=null">
+                        `id`,
+                    </if>
+                    <if test="name!=null">
+                        `name`,
+                    </if>
+                    <if test="parentId!=null">
+                        `parent_id`,
+                    </if>
+                    <if test="permission!=null">
+                        `permission`,
+                    </if>
+                    <if test="authorityType!=null">
+                        `authority_type`,
+                    </if>
+                    <if test="url!=null">
+                        `url`,
+                    </if>
+                    <if test="yn!=null">
+                        `yn`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="id!=null">
+                    #{id},
+                </if>
+                <if test="name!=null">
+                    #{name},
+                </if>
+                <if test="parentId!=null">
+                    #{parentId},
+                </if>
+                <if test="permission!=null">
+                    #{permission},
+                </if>
+                <if test="authorityType!=null">
+                    #{authorityType},
+                </if>
+                <if test="url!=null">
+                    #{url},
+                </if>
+                <if test="yn!=null">
+                    #{yn},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateAuthority">
+        UPDATE `t_authority`
+        SET
+        <trim suffixOverrides=",">
+            <if test="name != null and name!=''">
+                `name` = #{name},
+            </if>
+            <if test="parentId != null">
+                `parent_id` = #{parentId},
+            </if>
+            <if test="permission != null and permission!=''">
+                `permission` = #{permission},
+            </if>
+            <if test="authorityType != null and authorityType!=''">
+                `authority_type` = #{authorityType},
+            </if>
+            <if test="url != null and url!=''">
+                `url` = #{url},
+            </if>
+            <if test="yn != null">
+                `yn` = #{yn},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `id` = #{id} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `t_authority`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.name != null and set.name!=''">
+            `name` = #{set.name},
+        </if>
+        <if test="set.parentId != null">
+            `parent_id` = #{set.parentId},
+        </if>
+        <if test="set.permission != null and set.permission!=''">
+            `permission` = #{set.permission},
+        </if>
+        <if test="set.authorityType != null and set.authorityType!=''">
+            `authority_type` = #{set.authorityType},
+        </if>
+        <if test="set.url != null and set.url!=''">
+            `url` = #{set.url},
+        </if>
+        <if test="set.yn != null">
+            `yn` = #{set.yn},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.idList != null">
+                    `id` in
+                    <foreach collection="where.idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.idSt !=null">
+                `id` >= #{where.idSt} and
+            </if>
+            <if test="where.idEd!=null">
+                `id` &lt;= #{where.idEd} and
+            </if>
+                <if test="where.nameList != null">
+                    `name` in
+                    <foreach collection="where.nameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyName!=null and where.fuzzyName.size()>0">
+                (
+                <foreach collection="where.fuzzyName"  separator="or" item="item">
+                    `Name` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyName!=null and where.rightFuzzyName.size()>0">
+                (
+                <foreach collection="where.rightFuzzyName"  separator="or" item="item">
+                    `Name` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.parentIdList != null">
+                    `parent_id` in
+                    <foreach collection="where.parentIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.parentIdSt !=null">
+                `parent_id` >= #{where.parentIdSt} and
+            </if>
+            <if test="where.parentIdEd!=null">
+                `parent_id` &lt;= #{where.parentIdEd} and
+            </if>
+                <if test="where.permissionList != null">
+                    `permission` in
+                    <foreach collection="where.permissionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyPermission!=null and where.fuzzyPermission.size()>0">
+                (
+                <foreach collection="where.fuzzyPermission"  separator="or" item="item">
+                    `Permission` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyPermission!=null and where.rightFuzzyPermission.size()>0">
+                (
+                <foreach collection="where.rightFuzzyPermission"  separator="or" item="item">
+                    `Permission` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.authorityTypeList != null">
+                    `authority_type` in
+                    <foreach collection="where.authorityTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyAuthorityType!=null and where.fuzzyAuthorityType.size()>0">
+                (
+                <foreach collection="where.fuzzyAuthorityType"  separator="or" item="item">
+                    `Authority_type` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyAuthorityType!=null and where.rightFuzzyAuthorityType.size()>0">
+                (
+                <foreach collection="where.rightFuzzyAuthorityType"  separator="or" item="item">
+                    `Authority_type` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.urlList != null">
+                    `url` in
+                    <foreach collection="where.urlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyUrl!=null and where.fuzzyUrl.size()>0">
+                (
+                <foreach collection="where.fuzzyUrl"  separator="or" item="item">
+                    `Url` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyUrl!=null and where.rightFuzzyUrl.size()>0">
+                (
+                <foreach collection="where.rightFuzzyUrl"  separator="or" item="item">
+                    `Url` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.ynList != null">
+                    `yn` in
+                    <foreach collection="where.ynList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.ynSt !=null">
+                `yn` >= #{where.ynSt} and
+            </if>
+            <if test="where.ynEd!=null">
+                `yn` &lt;= #{where.ynEd} and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="packageModel.Authority" id="AuthorityMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="permission" column="permission"/>
+        <result property="authorityType" column="authority_type"/>
+        <result property="url" column="url"/>
+        <result property="yn" column="yn"/>
+    </resultMap>
+
+
+    <select id="queryAuthority" resultMap="AuthorityMap">
+        select
+        <include refid="baseResult"></include>
+        from  `t_authority`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="name != null and name!=''">
+                `name` = #{name} and
+            </if>
+            <if test="parentId != null">
+                `parent_id` = #{parentId} and
+            </if>
+            <if test="permission != null and permission!=''">
+                `permission` = #{permission} and
+            </if>
+            <if test="authorityType != null and authorityType!=''">
+                `authority_type` = #{authorityType} and
+            </if>
+            <if test="url != null and url!=''">
+                `url` = #{url} and
+            </if>
+            <if test="yn != null">
+                `yn` = #{yn} and
+            </if>
+            <if test = "(_parameter instanceof packageModel.Authority$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="nameList != null">
+                    `name` in
+                    <foreach collection="nameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyName!=null and fuzzyName.size()>0">
+                    (
+                    <foreach collection="fuzzyName"  separator="or" item="item">
+                        `Name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyName!=null and rightFuzzyName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyName"  separator="or" item="item">
+                        `Name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="parentIdList != null">
+                    `parent_id` in
+                    <foreach collection="parentIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="parentIdSt !=null">
+                    `parent_id` >= #{parentIdSt} and
+                </if>
+                <if test="parentIdEd!=null">
+                    `parent_id` &lt;= #{parentIdEd} and
+                </if>
+                <if test="permissionList != null">
+                    `permission` in
+                    <foreach collection="permissionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyPermission!=null and fuzzyPermission.size()>0">
+                    (
+                    <foreach collection="fuzzyPermission"  separator="or" item="item">
+                        `Permission` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPermission!=null and rightFuzzyPermission.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPermission"  separator="or" item="item">
+                        `Permission` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="authorityTypeList != null">
+                    `authority_type` in
+                    <foreach collection="authorityTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyAuthorityType!=null and fuzzyAuthorityType.size()>0">
+                    (
+                    <foreach collection="fuzzyAuthorityType"  separator="or" item="item">
+                        `Authority_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyAuthorityType!=null and rightFuzzyAuthorityType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyAuthorityType"  separator="or" item="item">
+                        `Authority_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="urlList != null">
+                    `url` in
+                    <foreach collection="urlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyUrl!=null and fuzzyUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyUrl"  separator="or" item="item">
+                        `Url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUrl!=null and rightFuzzyUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUrl"  separator="or" item="item">
+                        `Url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="ynList != null">
+                    `yn` in
+                    <foreach collection="ynList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="ynSt !=null">
+                    `yn` >= #{ynSt} and
+                </if>
+                <if test="ynEd!=null">
+                    `yn` &lt;= #{ynEd} and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryAuthorityLimit1" resultMap="AuthorityMap">
+        select
+        <include refid="baseResult"></include>
+        from  `t_authority`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="name != null and name!=''">
+                `name` = #{name} and
+            </if>
+            <if test="parentId != null">
+                `parent_id` = #{parentId} and
+            </if>
+            <if test="permission != null and permission!=''">
+                `permission` = #{permission} and
+            </if>
+            <if test="authorityType != null and authorityType!=''">
+                `authority_type` = #{authorityType} and
+            </if>
+            <if test="url != null and url!=''">
+                `url` = #{url} and
+            </if>
+            <if test="yn != null">
+                `yn` = #{yn} and
+            </if>
+            <if test = "(_parameter instanceof packageModel.Authority$QueryBuilder) == true">
+                    <if test="idList != null">
+                        `id` in
+                        <foreach collection="idList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                    <if test="nameList != null">
+                        `name` in
+                        <foreach collection="nameList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyName!=null and fuzzyName.size()>0">
+                    (
+                    <foreach collection="fuzzyName"  separator="or" item="item">
+                        `Name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyName!=null and rightFuzzyName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyName"  separator="or" item="item">
+                        `Name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="parentIdList != null">
+                        `parent_id` in
+                        <foreach collection="parentIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="parentIdSt !=null">
+                    `parent_id` >= #{parentIdSt} and
+                </if>
+                <if test="parentIdEd!=null">
+                    `parent_id` &lt;= #{parentIdEd} and
+                </if>
+                    <if test="permissionList != null">
+                        `permission` in
+                        <foreach collection="permissionList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyPermission!=null and fuzzyPermission.size()>0">
+                    (
+                    <foreach collection="fuzzyPermission"  separator="or" item="item">
+                        `Permission` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPermission!=null and rightFuzzyPermission.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPermission"  separator="or" item="item">
+                        `Permission` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="authorityTypeList != null">
+                        `authority_type` in
+                        <foreach collection="authorityTypeList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyAuthorityType!=null and fuzzyAuthorityType.size()>0">
+                    (
+                    <foreach collection="fuzzyAuthorityType"  separator="or" item="item">
+                        `Authority_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyAuthorityType!=null and rightFuzzyAuthorityType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyAuthorityType"  separator="or" item="item">
+                        `Authority_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="urlList != null">
+                        `url` in
+                        <foreach collection="urlList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyUrl!=null and fuzzyUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyUrl"  separator="or" item="item">
+                        `Url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUrl!=null and rightFuzzyUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUrl"  separator="or" item="item">
+                        `Url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="ynList != null">
+                        `yn` in
+                        <foreach collection="ynList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="ynSt !=null">
+                    `yn` >= #{ynSt} and
+                </if>
+                <if test="ynEd!=null">
+                    `yn` &lt;= #{ynEd} and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `id`,
+        `name`,
+        `parent_id`,
+        `permission`,
+        `authority_type`,
+        `url`,
+        `yn`+0 as `yn`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof packageModel.Authority$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.id==true">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.name==true">
+                        `name`,
+                    </if>
+                    <if test="fetchFields.fetchFields.parentId==true">
+                        `parent_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.permission==true">
+                        `permission`,
+                    </if>
+                    <if test="fetchFields.fetchFields.authorityType==true">
+                        `authority_type`,
+                    </if>
+                    <if test="fetchFields.fetchFields.url==true">
+                        `url`,
+                    </if>
+                    <if test="fetchFields.fetchFields.yn==true">
+                        `yn`+0 as `yn`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.id==null">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.name==null">
+                        `name`,
+                    </if>
+                    <if test="fetchFields.excludeFields.parentId==null">
+                        `parent_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.permission==null">
+                        `permission`,
+                    </if>
+                    <if test="fetchFields.excludeFields.authorityType==null">
+                        `authority_type`,
+                    </if>
+                    <if test="fetchFields.excludeFields.url==null">
+                        `url`,
+                    </if>
+                    <if test="fetchFields.excludeFields.yn==null">
+                        `yn`+0 as `yn`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof packageModel.Authority$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

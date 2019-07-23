@@ -29,16 +29,58 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${roleList}" var="role">
-                    <tr class="${usroleer.id %2 == 0?success:error}">
+                    <tr class="${role.id %2 == 0?success:error}">
                         <td>${role.id}</td>
                         <td>${role.role}</td>
                         <td>${role.description}</td>
                         <td>
-                            <button type="button" class="btn btn-default">按钮</button>
+                                <a href="">删除</a>
+                            |
+                                <a href="">修改</a>
+                            |
+                            <a href="javascript:setAuthority(${role.id},'${role.role}')">分配权限</a>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
+
+
+            <div id="authority-dialog"></div>
+
+
         </div>
     </div>
+
+
+<script>
+
+    function setAuthority(roleId,roleName){
+
+            $('#authority-dialog').dialog({
+                title: '给【'+roleName+'】角色分配权限',
+                cache: false,
+                href: '/authority/openAuthoritySetPage',
+                modal: true,
+                width:500,
+                height:600,
+                buttons:[{
+                    text:'确定',
+                    handler:function(){
+
+                        var nodes = $('#authority-tree-set').tree('getChecked',['checked','indeterminate']);
+
+                        //拿到所有被选中的权限id
+                        console.info(nodes);
+
+
+
+                    }
+                }]
+            });
+
+
+    }
+
+
+</script>
