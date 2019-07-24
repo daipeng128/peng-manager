@@ -13,4 +13,6 @@ public interface AuthorityService {
 
 
     List<AuthoriytTree> queryAuthorityTree();
+
+    List<AuthoriytTree> queryAuthorityTreeByRole(Integer roleId);
 }

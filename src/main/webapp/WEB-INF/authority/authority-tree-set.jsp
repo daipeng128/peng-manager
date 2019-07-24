@@ -21,10 +21,13 @@
 
 <script>
 
+    alert(glRoleId);
+
     //动态回显树
     $('#authority-tree-set').tree({
-        url:'/authority/queryAuthorityTree',
-        checkbox:true
+        url:'/authority/queryAuthorityTreeByRole?roleId='+glRoleId,
+        checkbox:true,
+        cascadeCheck:false
     })
 
 </script>

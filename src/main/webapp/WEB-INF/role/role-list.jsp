@@ -55,8 +55,10 @@
 
 <script>
 
-    function setAuthority(roleId,roleName){
+    var glRoleId;
 
+    function setAuthority(roleId,roleName){
+        glRoleId = roleId;
             $('#authority-dialog').dialog({
                 title: '给【'+roleName+'】角色分配权限',
                 cache: false,
@@ -68,12 +70,10 @@
                     text:'确定',
                     handler:function(){
 
-                        var nodes = $('#authority-tree-set').tree('getChecked',['checked','indeterminate']);
+                        var nodes = $('#authority-tree-set').tree('getChecked');
 
                         //拿到所有被选中的权限id
                         console.info(nodes);
-
-
 
                     }
                 }]

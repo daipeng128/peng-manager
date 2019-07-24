@@ -50,4 +50,17 @@ public class AuthorityController {
     }
 
 
+    /**
+     * 返回根据角色id 查询
+     * @param roleId
+     * @return
+     */
+    @RequestMapping("queryAuthorityTreeByRole")
+    @ResponseBody
+    public List<AuthoriytTree> queryAuthorityTreeByRole(Integer roleId){
+
+        return authorityService.queryAuthorityTreeByRole(roleId);
+    }
+
+
 }
